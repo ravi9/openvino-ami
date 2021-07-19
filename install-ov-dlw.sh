@@ -11,9 +11,14 @@ sudo usermod -a -G docker ec2-user
 sudo yum install -y python3 && 
 sudo yum install -y python3-devel.x86_64 &&
 pip3 install -U opencv-python-headless==4.2.0.32 &&
+pip3 uninstall -y opencv-python &&
 pip3 install openvino-dev && 
 pip3 install -U openvino-workbench
 
+# Install Tensorflow, Pytorch, ONNX
+pip3 install tensorflow -U
+pip3 install torch -U
+pip3 install onnx
 
 
 

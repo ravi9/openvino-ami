@@ -1,0 +1,35 @@
+description: This is OpenVINO and DL workbench install document.
+schemaVersion: 1.0
+
+phases:
+  - name: build
+    steps:
+      - name: DownloadInstallScript
+        action: WebDownload
+        maxAttempts: 3
+        inputs:
+          - source: https://raw.githubusercontent.com/psakamoori/scripts/main/install-ov-dlw.sh
+            destination: /tmp/
+            overwrite: true
+            ignoreCertificateErrors: true
+      - name: InstallOpenVinoAndDlworkbench
+        action: ExecuteBash
+        inputs:
+          commands:
+            - bash /tmp/install-ov-dlw.sh
+
+  - name: validate
+    steps:
+      - name: HelloWorldStep
+        action: ExecuteBash
+        inputs:
+          commands:
+            - benchmark_app
+
+  - name: test
+    steps:
+      - name: HelloWorldStep
+        action: ExecuteBash
+        inputs:
+          commands:
+            - echo "Hello World! Test."
