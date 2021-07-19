@@ -12,7 +12,7 @@ sudo yum install -y python3 &&
 sudo yum install -y python3-devel.x86_64 &&
 pip3 install -U opencv-python-headless==4.2.0.32 &&
 pip3 install openvino-dev && 
-python3 -m pip install -U openvino-workbench
+pip3 install -U openvino-workbench
 
 
 
