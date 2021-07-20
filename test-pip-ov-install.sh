@@ -3,7 +3,7 @@ omz_downloader --name googlenet-v1-tf
 
 omz_converter --name googlenet-v1-tf
 
-benchmark_app -m public/googlenet-v1-tf/FP32/googlenet-v1-tf.xml
+benchmark_app -m public/googlenet-v1-tf/FP32/googlenet-v1-tf.xml -niter 1
 
 mo \
 --framework=tf \
