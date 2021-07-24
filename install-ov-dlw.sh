@@ -26,15 +26,15 @@ pip3 install onnx
 # Pull Docker image - openvino/workbench:2021.4
 sudo docker pull openvino/workbench:2021.4
 # Download scripts to start Jupyter and DL workbench.
-curl https://raw.githubusercontent.com/psakamoori/scripts/ravi-dev/start_jupyter.sh -o /home/ec2-user/.start_jupyter.sh
+curl https://raw.githubusercontent.com/psakamoori/scripts/main/start_jupyter.sh -o /home/ec2-user/.start_jupyter.sh
 
-curl https://raw.githubusercontent.com/psakamoori/scripts/ravi-dev/start_dlworkbench.sh -o /home/ec2-user/.start_dlworkbench.sh
+curl https://raw.githubusercontent.com/psakamoori/scripts/main/start_dlworkbench.sh -o /home/ec2-user/.start_dlworkbench.sh
 
 # Give executable permissions to the scripts
 chmod 755 /home/ec2-user/.start_jupyter.sh /home/ec2-user/.start_dlworkbench.sh
 
 # Add cronjob to start jupyter and DL workbench on start of the instance.
-curl https://raw.githubusercontent.com/psakamoori/scripts/ravi-dev/add_cron_job.sh -o /home/ec2-user/.add_cron_job.sh
+curl https://raw.githubusercontent.com/psakamoori/scripts/main/add_cron_job.sh -o /home/ec2-user/.add_cron_job.sh
 
 sudo bash /home/ec2-user/.add_cron_job.sh
 
