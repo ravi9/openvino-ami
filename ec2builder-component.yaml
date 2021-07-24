@@ -1,3 +1,4 @@
+name: OpenVinoInstallDocument
 description: This is OpenVINO and DL workbench install document.
 schemaVersion: 1.0
 
@@ -16,20 +17,12 @@ phases:
         action: ExecuteBash
         inputs:
           commands:
-            - bash /tmp/install-ov-dlw.sh
+            - sudo su ec2-user -c "bash /tmp/install-ov-dlw.sh"
 
   - name: validate
     steps:
-      - name: HelloWorldStep
+      - name: VerifyOpenVINOInstall
         action: ExecuteBash
         inputs:
           commands:
-            - benchmark_app
-
-  - name: test
-    steps:
-      - name: HelloWorldStep
-        action: ExecuteBash
-        inputs:
-          commands:
-            - echo "Hello World! Test."
+            - ls -l /home/ec2-user/.local/lib/python3.7/site-packages/openvino
