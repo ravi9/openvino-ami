@@ -37,3 +37,6 @@ chmod 755 /home/ec2-user/.start_jupyter.sh /home/ec2-user/.start_dlworkbench.sh
 curl https://raw.githubusercontent.com/psakamoori/scripts/ravi-dev/add_cron_job.sh -o /home/ec2-user/.add_cron_job.sh
 
 sudo bash /home/ec2-user/.add_cron_job.sh
+
+# Download ipynb with instructions to retrieve DL workbench token.
+curl https://raw.githubusercontent.com/psakamoori/scripts/main/Access-OpenVINO-Workbench.ipynb -o /home/ec2-user/Access-OpenVINO-Workbench.ipynb
