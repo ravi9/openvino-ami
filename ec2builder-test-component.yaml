@@ -1,0 +1,20 @@
+name: OpenVinoInstallTestDocument
+description: This is OpenVINO and DL workbench installation testing document.
+schemaVersion: 1.0
+
+phases:
+  - name: test
+    steps:
+      - name: DownloadOVInstallTestScript
+        action: WebDownload
+        maxAttempts: 3
+        inputs:
+          - source: https://raw.githubusercontent.com/psakamoori/scripts/main/test-pip-ov-install.sh
+            destination: /tmp/
+            overwrite: true
+            ignoreCertificateErrors: true
+      - name: InstallOpenVinoAndDlworkbenchTest
+        action: ExecuteBash
+        inputs:
+          commands:
+            - sudo su ec2-user -c "bash test-pip-ov-install.sh"
