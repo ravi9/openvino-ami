@@ -1,5 +1,5 @@
 # Script to launch openvino-workbench container
-# Application accessed through webbrowser with http://<ec2-public-ip>:5665/
+# OpenVINO DL Workbench Application accessed through web browser with http://<ec2-public-ip>:5665/
 
 # Remove any existing workbench container
 docker rm workbench
