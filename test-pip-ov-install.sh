@@ -1,10 +1,21 @@
-omz_downloader --name googlenet-v1-tf
+#!/bin/bash
 
-omz_converter --name googlenet-v1-tf
+# Test script which tests: omz_downloader, omz_converter, benchmark_app, mo, OpenVINO Python imports.
 
-benchmark_app -m public/googlenet-v1-tf/FP32/googlenet-v1-tf.xml -niter 1
+# Path where all the pip-installed OpenVINO binaries
+BIN_PREFIX=/home/ec2-user/.local/bin/
 
-mo \
+# Download googlenet-v1-tf model from OpenVINO Model Zoo (OMZ)
+$BIN_PREFIX/omz_downloader --name googlenet-v1-tf
+
+# Convert googlenet-v1-tf model to OpenVINO IR
+$BIN_PREFIX/omz_converter --name googlenet-v1-tf
+
+# Benchmark googlenet-v1-tf model with OpenVINO Benchmark App...¶
+$BIN_PREFIX/benchmark_app -m public/googlenet-v1-tf/FP32/googlenet-v1-tf.xml -niter 1
+
+# Test with model optimizer
+$BIN_PREFIX/mo \
     --framework=tf \
     --data_type FP32 \
     --output_dir ./public/googlenet-v1-tf/FP32 \
