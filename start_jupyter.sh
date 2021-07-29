@@ -10,6 +10,7 @@ curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-da
 # Setup the ec2-user environment
 cd /home/ec2-user
 source /home/ec2-user/.bashrc
+export PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/ec2-user/.local/bin:/home/ec2-user/bin:$PATH
 
 # Start Jupyter Notebook server with $INSTANCE_ID as the password
 /home/ec2-user/.local/bin/jupyter notebook --no-browser --NotebookApp.allow_password_change=False --NotebookApp.token="$INSTANCE_ID" --ip 0.0.0.0 --port 8888 >/tmp/jupyter.log 2>&1 &
