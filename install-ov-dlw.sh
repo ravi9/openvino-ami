@@ -23,8 +23,12 @@ pip3 install tensorflow -U
 pip3 install torch -U
 pip3 install onnx
 
-# Pull Docker image - openvino/workbench:2021.4
-sudo docker pull openvino/workbench:2021.4
+# Pull Docker image - openvino/workbench:2021.4.0.2
+sudo docker pull openvino/workbench:2021.4.0.2
+
+#create folder for workbench assets, preserves work done in workbench 
+mkdir -m 777 /home/ec2-user/.workbench
+
 # Download scripts to start Jupyter and DL workbench.
 curl https://raw.githubusercontent.com/psakamoori/scripts/main/start_jupyter.sh -o /home/ec2-user/.start_jupyter.sh
 
