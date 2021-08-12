@@ -5,4 +5,8 @@
 docker rm workbench
 
 # Start OpenVINO DL Workbench
-/home/ec2-user/.local/bin/openvino-workbench --image openvino/workbench:2021.4 --enable-authentication >/tmp/ov-workbench.log 2>&1 &
+/home/ec2-user/.local/bin/openvino-workbench \
+        --image openvino/workbench:2021.4.0.2 \
+        --enable-authentication \
+        --assets-directory /home/ec2-user/.workbench \
+        >/tmp/ov-workbench.log 2>&1 &
