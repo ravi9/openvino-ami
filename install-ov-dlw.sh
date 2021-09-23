@@ -7,21 +7,25 @@ sudo yum -y update &&
     sudo service docker start &&
     sudo usermod -a -G docker ec2-user
 
+sudo ln -s /usr/bin/pip3 /usr/bin/pip
+
 # Install OpenVINO and DL-Workbench
 sudo yum install -y python3 &&
     sudo yum install -y python3-devel.x86_64 &&
-    pip3 install openvino-dev &&
-    pip3 install notebook progress tqdm matplotlib scipy &&
-    python3 -m pip install -U openvino-workbench
+    pip install --upgrade pip &&
+    pip install openvino-dev &&
+    pip install notebook progress tqdm matplotlib scipy &&
+    pip install -U openvino-workbench
 
 # Install this specific version of CV and uninstall to bypass libgl errors.
-pip3 install -U opencv-python-headless==4.2.0.32 &&
-    pip3 uninstall -y opencv-python
+pip install -U opencv-python-headless==4.2.0.32 &&
+pip uninstall -y opencv-python
 
-# Install Tensorflow, Pytorch, ONNX
-pip3 install tensorflow -U
-pip3 install torch -U
-pip3 install onnx
+# Install Tensorflow, Pytorch, ONNX, MxNET
+pip install tensorflow -U
+pip install torch -U
+pip install onnx -U
+pip install mxnet -U
 
 # Pull Docker image - openvino/workbench:2021.4.0.2
 sudo docker pull openvino/workbench:2021.4.0.2
