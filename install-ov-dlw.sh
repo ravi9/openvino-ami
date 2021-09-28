@@ -27,6 +27,9 @@ pip install torch -U
 pip install onnx -U
 pip install mxnet -U
 
+# Clear pip cache
+pip cache purge
+
 # Pull Docker image - openvino/workbench:2021.4.0.2
 sudo docker pull openvino/workbench:2021.4.0.2
 
