@@ -30,8 +30,8 @@ pip install mxnet -U
 # Clear pip cache
 pip cache purge
 
-# Pull Docker image - openvino/workbench:2021.4.0.2
-sudo docker pull openvino/workbench:2021.4.0.2
+# Pull Docker image - openvino/workbench:2021.4.1.1
+sudo docker pull openvino/workbench:2021.4.1.1
 
 #create folder for workbench assets, preserves work done in workbench 
 mkdir -m 777 /home/ec2-user/.workbench
