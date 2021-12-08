@@ -16,7 +16,7 @@ sudo ln -s /usr/bin/pip3 /usr/bin/pip
 sudo yum install -y python3 &&
     sudo yum install -y python3-devel.x86_64 &&
     pip install --upgrade pip &&
-    pip install notebook progress tqdm matplotlib scipy ipykernel virtualenv &&
+    pip install jupyterlab progress tqdm matplotlib scipy ipykernel virtualenv &&
     pip install openvino-dev==$OV_VERSION &&
     pip install openvino-workbench==$OV_VERSION
 
