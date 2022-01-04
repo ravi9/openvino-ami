@@ -1,4 +1,11 @@
-# Script to install docker, intel openvino and DL Workbench on Amazon Linux 2 EC2 instance
+#!/bin/bash
+
+# Script to install following on Amazon Linux 2 EC2 instance
+# Docker, 
+# Jupyter Lab
+# Intel OpenVINO (DEV) and its dependencies,
+# OpenVINO DL Workbench,
+# OpenVINO™ integration with TensorFlow (OVTF)
 
 OV_VERSION=2021.4.2
 
@@ -36,14 +43,27 @@ pip cache purge
 # Name the ipython kernel to OpenVINO 
 /usr/bin/python3 -m ipykernel install --user --name OpenVINO
 
+# Install OpenVINO™ integration with TensorFlow (OVTF) as a IPython Kernel
+
 # Create openvino_tensorflow ipython kernel
 /usr/bin/python3 -m virtualenv /home/ec2-user/.ovtf-venv
+
+# Activate ovtf-venv virtual env
 source /home/ec2-user/.ovtf-venv/bin/activate
+
+# Setup required versions
+TF_VER=2.7.0
+KERAS_VER=2.7.0
+OVTF_VER=1.1.0
+TF_ENABLE_ONEDNN_OPTS=1
+
 pip install ipykernel
-pip install tensorflow==2.5.1
-pip install -U openvino-tensorflow
+pip install tensorflow==$TF_VER keras==$KERAS_VER
+pip install openvino_tensorflow==$OVTF_VER
 python3 -m ipykernel install --user --name openvino_tensorflow
 deactivate
+
+# OVTF IPython Kernel install ends.
 
 # Setup OpenVINO Workbench
 # Pull Docker image - openvino/workbench:$OV_VERSION
