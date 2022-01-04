@@ -43,9 +43,9 @@ pip cache purge
 # Name the ipython kernel to OpenVINO 
 /usr/bin/python3 -m ipykernel install --user --name OpenVINO
 
-# Install OpenVINO™ integration with TensorFlow (OVTF) as a IPython Kernel
+# Install OpenVINO™ integration with TensorFlow (OVTF) as IPython Kernel
 
-# Create openvino_tensorflow ipython kernel
+# Create openvino_tensorflow virtual env, which can be added as IPython Kernel
 /usr/bin/python3 -m virtualenv /home/ec2-user/.ovtf-venv
 
 # Activate ovtf-venv virtual env
@@ -60,6 +60,7 @@ TF_ENABLE_ONEDNN_OPTS=1
 pip install ipykernel
 pip install tensorflow==$TF_VER keras==$KERAS_VER
 pip install openvino_tensorflow==$OVTF_VER
+# Create openvino_tensorflow ipython kernel
 python3 -m ipykernel install --user --name openvino_tensorflow
 deactivate
 
