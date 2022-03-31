@@ -7,7 +7,8 @@
 # OpenVINO DL Workbench,
 # OpenVINO™ integration with TensorFlow (OVTF)
 
-OV_VERSION=2022.1.0
+OV_VER=2022.1.0
+OV_DLW_VER=2022.1
 
 # Install dependencies and Docker
 sudo yum -y update &&
@@ -24,8 +25,8 @@ sudo yum install -y python3 &&
     sudo yum install -y python3-devel.x86_64 &&
     pip install --upgrade pip &&
     pip install jupyterlab progress tqdm matplotlib scipy ipykernel virtualenv &&
-    pip install openvino-dev==$OV_VERSION &&
-    pip install openvino-workbench==$OV_VERSION
+    pip install openvino-dev==$OV_VER &&
+    pip install openvino-workbench==$OV_DLW_VER
 
 # Install this specific version of CV and uninstall to bypass libgl errors.
 pip install -U opencv-python-headless==4.2.0.32 &&
@@ -43,32 +44,9 @@ pip cache purge
 # Name the ipython kernel to OpenVINO 
 /usr/bin/python3 -m ipykernel install --user --name OpenVINO
 
-# Install OpenVINO™ integration with TensorFlow (OVTF) as IPython Kernel
-
-# Create openvino_tensorflow virtual env, which can be added as IPython Kernel
-/usr/bin/python3 -m virtualenv /home/ec2-user/.ovtf-venv
-
-# Activate ovtf-venv virtual env
-source /home/ec2-user/.ovtf-venv/bin/activate
-
-# Setup required versions
-TF_VER=2.7.0
-KERAS_VER=2.7.0
-OVTF_VER=1.1.0
-TF_ENABLE_ONEDNN_OPTS=1
-
-pip install ipykernel
-pip install tensorflow==$TF_VER keras==$KERAS_VER
-pip install openvino_tensorflow==$OVTF_VER
-# Create openvino_tensorflow ipython kernel
-python3 -m ipykernel install --user --name openvino_tensorflow
-deactivate
-
-# OVTF IPython Kernel install ends.
-
 # Setup OpenVINO Workbench
-# Pull Docker image - openvino/workbench:$OV_VERSION
-sudo docker pull openvino/workbench:$OV_VERSION
+# Pull Docker image - openvino/workbench:$OV_DLW_VER
+sudo docker pull openvino/workbench:$OV_DLW_VER
 
 #create folder for workbench assets, preserves work done in workbench 
 mkdir -m 777 /home/ec2-user/.workbench
