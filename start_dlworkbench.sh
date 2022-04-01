@@ -4,7 +4,7 @@
 TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
 INSTANCE_ID=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/instance-id)
 
-OV_DLW_VER=2022.1
+OV_DLW_VER=2022.1.0
 
 # Remove any existing workbench container
 docker rm workbench
