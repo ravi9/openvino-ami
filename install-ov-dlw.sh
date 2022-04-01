@@ -8,7 +8,7 @@
 # OpenVINO™ integration with TensorFlow (OVTF)
 
 OV_VER=2022.1.0
-OV_DLW_VER=2022.1
+OV_DLW_VER=2022.1.0
 
 # Install dependencies and Docker
 sudo yum -y update &&
