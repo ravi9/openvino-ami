@@ -10,20 +10,22 @@
 OV_VER=2022.1.0
 OV_DLW_VER=2022.1.0
 
-# Install dependencies and Docker
+# Install dependencies, Install Python3.8
 sudo yum -y update &&
     sudo yum -y groupinstall "Development Tools" &&
-    sudo amazon-linux-extras install -y docker &&
+    sudo amazon-linux-extras enable python3.8 &&
+    sudo yum -y install python3.8 &&
+    sudo yum install -y python38-devel.x86_64 &&
+    sudo ln -s /usr/bin/pip3.8 /usr/bin/pip &&
+    pip install --upgrade pip
+
+# Install Docker
+sudo amazon-linux-extras install -y docker &&
     sudo systemctl enable docker &&
     sudo systemctl start docker &&
     sudo usermod -a -G docker ec2-user
 
-sudo ln -s /usr/bin/pip3 /usr/bin/pip
-
 # Install OpenVINO and DL-Workbench
-sudo yum install -y python3 &&
-    sudo yum install -y python3-devel.x86_64 &&
-    pip install --upgrade pip &&
     pip install jupyterlab progress tqdm matplotlib scipy ipykernel virtualenv &&
     pip install openvino-dev==$OV_VER &&
     pip install openvino-workbench==$OV_DLW_VER
