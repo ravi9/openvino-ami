@@ -14,10 +14,10 @@ OV_DLW_VER=2022.1.0
 sudo yum -y update &&
     sudo yum -y groupinstall "Development Tools" &&
     sudo amazon-linux-extras enable python3.8 &&
-    sudo yum -y install python3.8 &&
-    sudo yum install -y python38-devel.x86_64 &&
-    sudo ln -s /usr/bin/pip3.8 /usr/bin/pip &&
-    pip install --upgrade pip
+    sudo yum -y install python38 python38-devel &&
+    pip3.8 install --upgrade pip --user &&
+    sudo ln -s /usr/bin/pip3.8 /usr/bin/pip
+    
 
 # Install Docker
 sudo amazon-linux-extras install -y docker &&
