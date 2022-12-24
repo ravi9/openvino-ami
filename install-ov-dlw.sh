@@ -7,7 +7,7 @@
 # OpenVINO DL Workbench,
 # OpenVINO™ integration with TensorFlow (OVTF)
 
-OV_VER=2022.1.0
+OV_VER=2022.3.0
 OV_DLW_VER=2022.1.0
 
 # Install dependencies and Docker
