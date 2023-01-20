@@ -9,7 +9,7 @@ phases:
         action: WebDownload
         maxAttempts: 3
         inputs:
-          - source: https://raw.githubusercontent.com/ravi9/openvino-ami/2022.3.0/install-ov-notebooks.sh
+          - source: https://raw.githubusercontent.com/ravi9/openvino-ami/main/install-ov-notebooks.sh
             destination: /tmp/
             overwrite: true
             ignoreCertificateErrors: true

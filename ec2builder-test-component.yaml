@@ -9,7 +9,7 @@ phases:
         action: WebDownload
         maxAttempts: 3
         inputs:
-          - source: https://raw.githubusercontent.com/ravi9/openvino-ami/2022.3.0/test-pip-ov-install.sh
+          - source: https://raw.githubusercontent.com/ravi9/openvino-ami/main/test-pip-ov-install.sh
             destination: /tmp/
             overwrite: true
             ignoreCertificateErrors: true
