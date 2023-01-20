@@ -1,5 +1,5 @@
 name: OpenVinoInstallTestDocument
-description: This is OpenVINO and DL workbench installation testing document.
+description: This is OpenVINO and OpenVINO Notebooks install testing document.
 schemaVersion: 1.0
 
 phases:
@@ -9,11 +9,11 @@ phases:
         action: WebDownload
         maxAttempts: 3
         inputs:
-          - source: https://raw.githubusercontent.com/psakamoori/scripts/main/test-pip-ov-install.sh
+          - source: https://raw.githubusercontent.com/ravi9/openvino-ami/2022.3.0/test-pip-ov-install.sh
             destination: /tmp/
             overwrite: true
             ignoreCertificateErrors: true
-      - name: InstallOpenVinoAndDlworkbenchTest
+      - name: InstallOpenVinoNotebooksTest
         action: ExecuteBash
         inputs:
           commands:
