@@ -25,6 +25,6 @@ $BIN_PREFIX/mo \
 
 ## Test Python Imports
 
-python3 -c "from openvino.runtime import Core, get_version as get_ov_version; print('openvino version: ' + get_ov_version())"
+python3 -c "from openvino.runtime import Core, get_version; print('openvino version: ' + get_version())"
 
 python3 -c "from openvino.tools.benchmark.main import main"
