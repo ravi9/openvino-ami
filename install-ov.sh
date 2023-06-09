@@ -4,7 +4,7 @@
 # Intel OpenVINO (DEV) and its dependencies,
 # Jupyter Lab
 
-OV_VER=2022.3.0
+OV_VER=2023.0.0
 
 # Install dependencies and Docker
 sudo yum -y update &&
@@ -30,12 +30,12 @@ pip cache purge
 /usr/bin/python3 -m ipykernel install --user --name OpenVINO
 
 # Download scripts to start Jupyter
-curl https://raw.githubusercontent.com/psakamoori/scripts/$OV_VER/start_jupyter.sh -o /home/ec2-user/.start_jupyter.sh
+curl https://raw.githubusercontent.com/ravi9/openvino-ami/main/start_jupyter.sh -o /home/ec2-user/.start_jupyter.sh
 
 # Give executable permissions to the scripts
 chmod 755 /home/ec2-user/.start_jupyter.sh
 
 # Add cronjob to start jupyter on start of the instance.
-curl https://raw.githubusercontent.com/psakamoori/scripts/$OV_VER/add_cron_job.sh -o /home/ec2-user/.add_cron_job.sh
+curl https://raw.githubusercontent.com/ravi9/openvino-ami/main/add_cron_job.sh -o /home/ec2-user/.add_cron_job.sh
 
 sudo bash /home/ec2-user/.add_cron_job.sh
