@@ -25,4 +25,4 @@ phases:
         action: ExecuteBash
         inputs:
           commands:
-            - ls -l /home/ec2-user/.local/lib/python3.7/site-packages/openvino
+            - /home/ec2-user/openvino_env/bin/pip show openvino
