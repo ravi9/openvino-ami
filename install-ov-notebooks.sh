@@ -7,7 +7,11 @@
 sudo yum -y update &&
 sudo yum -y upgrade &&
 sudo yum -y groupinstall "Development Tools" &&
-sudo yum install -y git-all mesa-libGL
+sudo yum install -y git-all mesa-libGL cronie
+
+# Enable and start the ‘cronie’ service. CronTab is  missing in AL 2023.
+sudo systemctl enable crond.service
+sudo systemctl start crond.service
 
 # Create Python Virtual Env and install OV Notebooks
 cd /home/ec2-user
@@ -25,12 +29,15 @@ cd openvino_notebooks
 /home/ec2-user/openvino_env/bin/python -m ipykernel install --user --name OpenVINO
 
 # Download scripts to start Jupyter
-curl https://raw.githubusercontent.com/psakamoori/scripts/main/start_jupyter.sh -o /home/ec2-user/.start_jupyter.sh
+curl https://raw.githubusercontent.com/ravi9/openvino-ami/main/start_jupyter.sh -o /home/ec2-user/.start_jupyter.sh
 
 # Give executable permissions to the scripts
 chmod 755 /home/ec2-user/.start_jupyter.sh
 
 # Add cronjob to start jupyter on start of the instance.
-curl https://raw.githubusercontent.com/psakamoori/scripts/main/add_cron_job.sh -o /home/ec2-user/.add_cron_job.sh
+curl https://raw.githubusercontent.com/ravi9/openvino-ami/main/add_cron_job.sh -o /home/ec2-user/.add_cron_job.sh
 
 sudo bash /home/ec2-user/.add_cron_job.sh
+
+# Verify  cronjobs
+sudo crontab -l
