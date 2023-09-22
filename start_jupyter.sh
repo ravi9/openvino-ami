@@ -17,12 +17,12 @@ export TF_ENABLE_ONEDNN_OPTS=1
 # Start Jupyter Notebook server with $INSTANCE_ID as the password
 cd /home/ec2-user/openvino_notebooks
 
-/home/ec2-user/.local/bin/jupyter lab \
+/home/ec2-user/openvino_env/bin/jupyter lab \
 --no-browser \
 --NotebookApp.allow_password_change=False \
 --NotebookApp.token="$INSTANCE_ID" \
 --ip 0.0.0.0 \
---port 8888 &
+--port 8888 >/dev/null 2>&1 &
 
 # For debugging
 #--port 8888 >/tmp/jupyter.log 2>&1 &
