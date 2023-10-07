@@ -1,0 +1,309 @@
+#!/bin/bash
+if [[ ! -f /tmp/perform_cleanup ]]; then
+echo "Skipping cleanup"
+exit 0
+else
+sudo rm -f /tmp/perform_cleanup
+fi
+
+function cleanup() {
+FILES=("$@")
+for FILE in " "; do
+if [[ -f "$FILE" ]]; then
+echo "Deleting $FILE";
+sudo shred -zuf $FILE;
+fi;
+if [[ -f $FILE ]]; then
+echo "Failed to delete '$FILE'. Failing."
+exit 1
+fi;
+done
+};
+
+
+# Clean up for cloud-init files
+CLOUD_INIT_FILES=(
+"/etc/sudoers.d/90-cloud-init-users"
+"/etc/locale.conf"
+"/var/log/cloud-init.log"
+"/var/log/cloud-init-output.log"
+)
+if [[ -f /tmp/skip_cleanup_cloudinit_files ]]; then
+echo "Skipping cleanup of cloud init files"
+else
+echo "Cleaning up cloud init files"
+cleanup " "
+if [[ $( sudo find /var/lib/cloud -type f | sudo wc -l ) -gt 0 ]]; then
+echo "Deleting files within /var/lib/cloud/*"
+sudo find /var/lib/cloud -type f -exec shred -zuf {} \;
+fi;
+
+if [[ $( sudo ls /var/lib/cloud | sudo wc -l ) -gt 0 ]]; then
+echo "Deleting /var/lib/cloud/*"
+sudo rm -rf /var/lib/cloud/* || true
+fi;
+fi;
+
+
+# Clean up for temporary instance files
+INSTANCE_FILES=(
+"/etc/.updated"
+"/etc/aliases.db"
+"/etc/hostname"
+"/var/lib/misc/postfix.aliasesdb-stamp"
+"/var/lib/postfix/master.lock"
+"/var/spool/postfix/pid/master.pid"
+"/var/.updated"
+"/var/cache/yum/x86_64/2/.gpgkeyschecked.yum"
+)
+if [[ -f /tmp/skip_cleanup_instance_files ]]; then
+echo "Skipping cleanup of instance files"
+else
+echo "Cleaning up instance files"
+cleanup " "
+fi;
+
+
+# Clean up for ssh files
+SSH_FILES=(
+"/etc/ssh/ssh_host_rsa_key"
+"/etc/ssh/ssh_host_rsa_key.pub"
+"/etc/ssh/ssh_host_ecdsa_key"
+"/etc/ssh/ssh_host_ecdsa_key.pub"
+"/etc/ssh/ssh_host_ed25519_key"
+"/etc/ssh/ssh_host_ed25519_key.pub"
+"/root/.ssh/authorized_keys"
+)
+if [[ -f /tmp/skip_cleanup_ssh_files ]]; then
+echo "Skipping cleanup of ssh files"
+else
+echo "Cleaning up ssh files"
+cleanup " "
+USERS=$(ls /home/)
+for user in $USERS; do
+echo Deleting /home/"$user"/.ssh/authorized_keys;
+sudo find /home/"$user"/.ssh/authorized_keys -type f -exec shred -zuf {} \;
+done
+for user in $USERS; do
+if [[ -f /home/"$user"/.ssh/authorized_keys ]]; then
+echo Failed to delete /home/"$user"/.ssh/authorized_keys;
+exit 1
+fi;
+done;
+fi;
+
+
+# Clean up for instance log files
+INSTANCE_LOG_FILES=(
+"/var/log/audit/audit.log"
+"/var/log/boot.log"
+"/var/log/dmesg"
+"/var/log/cron"
+)
+if [[ -f /tmp/skip_cleanup_instance_log_files ]]; then
+echo "Skipping cleanup of instance log files"
+else
+echo "Cleaning up instance log files"
+cleanup " "
+fi;
+
+# Clean up for TOE files
+if [[ -f /tmp/skip_cleanup_toe_files ]]; then
+echo "Skipping cleanup of TOE files"
+else
+echo "Cleaning TOE files"
+if [[ $( sudo find /tmp/TOE_* -type f | sudo wc -l) -gt 0 ]]; then
+echo "Deleting files within /tmp/TOE_*"
+sudo find /tmp/TOE_* -type f -exec shred -zuf {} \;
+fi
+if [[ $( sudo find /tmp/TOE_* -type f | sudo wc -l) -gt 0 ]]; then
+echo "Failed to delete /tmp/TOE_*"
+exit 1
+fi
+if [[ $( sudo find /tmp/TOE_* -type d | sudo wc -l) -gt 0 ]]; then
+echo "Deleting /tmp/TOE_*"
+sudo rm -rf /tmp/TOE_*
+fi
+if [[ $( sudo find /tmp/TOE_* -type d | sudo wc -l) -gt 0 ]]; then
+echo "Failed to delete /tmp/TOE_*"
+exit 1
+fi
+fi
+
+# Clean up for ssm log files
+if [[ -f /tmp/skip_cleanup_ssm_log_files ]]; then
+echo "Skipping cleanup of ssm log files"
+else
+echo "Cleaning up ssm log files"
+if [[ $( sudo find /var/log/amazon/ssm -type f | sudo wc -l) -gt 0 ]]; then
+echo "Deleting files within /var/log/amazon/ssm/*"
+sudo find /var/log/amazon/ssm -type f -exec shred -zuf {} \;
+fi
+if [[ $( sudo find /var/log/amazon/ssm -type f | sudo wc -l) -gt 0 ]]; then
+echo "Failed to delete /var/log/amazon/ssm"
+exit 1
+fi
+if [[ -d "/var/log/amazon/ssm" ]]; then
+echo "Deleting /var/log/amazon/ssm/*"
+sudo rm -rf /var/log/amazon/ssm
+fi
+if [[ -d "/var/log/amazon/ssm" ]]; then
+echo "Failed to delete /var/log/amazon/ssm"
+exit 1
+fi
+fi
+
+
+if [[ $( sudo find /var/log/sa/sa* -type f | sudo wc -l ) -gt 0 ]]; then
+echo "Deleting /var/log/sa/sa*"
+sudo shred -zuf /var/log/sa/sa*
+fi
+if [[ $( sudo find /var/log/sa/sa* -type f | sudo wc -l ) -gt 0 ]]; then
+echo "Failed to delete /var/log/sa/sa*"
+exit 1
+fi
+
+if [[ $( sudo find /var/lib/dhclient/dhclient*.lease -type f | sudo wc -l ) -gt 0 ]]; then
+echo "Deleting /var/lib/dhclient/dhclient*.lease"
+sudo shred -zuf /var/lib/dhclient/dhclient*.lease
+fi
+if [[ $( sudo find /var/lib/dhclient/dhclient*.lease -type f | sudo wc -l ) -gt 0 ]]; then
+echo "Failed to delete /var/lib/dhclient/dhclient*.lease"
+exit 1
+fi
+
+if [[ $( sudo find /var/tmp -type f | sudo wc -l) -gt 0 ]]; then
+echo "Deleting files within /var/tmp/*"
+sudo find /var/tmp -type f -exec shred -zuf {} \;
+fi
+if [[ $( sudo find /var/tmp -type f | sudo wc -l) -gt 0 ]]; then
+echo "Failed to delete /var/tmp"
+exit 1
+fi
+if [[ $( sudo ls /var/tmp | sudo wc -l ) -gt 0 ]]; then
+echo "Deleting /var/tmp/*"
+sudo rm -rf /var/tmp/*
+fi
+
+# Shredding is not guaranteed to work well on rolling logs
+
+if [[ -f "/var/lib/rsyslog/imjournal.state" ]]; then
+echo "Deleting /var/lib/rsyslog/imjournal.state"
+sudo shred -zuf /var/lib/rsyslog/imjournal.state
+sudo rm -f /var/lib/rsyslog/imjournal.state
+fi
+
+if [[ $( sudo ls /var/log/journal/ | sudo wc -l ) -gt 0 ]]; then
+echo "Deleting /var/log/journal/*"
+sudo find /var/log/journal/ -type f -exec shred -zuf {} \;
+sudo rm -rf /var/log/journal/*
+fi
+
+sudo touch /etc/machine-id
+
+#!/bin/bash -e
+
+SERVICE_ROOT_WORKING_DIR="/tmp/imagebuilder_service"
+SSM_UNINSTALL_CONDITION="SSM_INSTALLED_BY_CUSTOMER"
+
+function error_exit {
+echo "$1" 1>&2
+exit 1
+}
+
+function package_exists() {
+$(which "$1" > /dev/null 2>&1 )
+return $?
+}
+
+
+function cleanup_image() {
+rm -rf " "
+}
+
+
+function ssm_exists() {
+eval "$1" > /dev/null 2>&1
+echo $?
+}
+
+function uninstall_ssm_agent() {
+
+uninstall_package="$1"
+uninstall_all=""
+uninstall_success="false"
+
+if [ " " == "" ]; then
+uninstall_all="true"
+fi
+
+yum="sudo yum search amazon-ssm-agent | grep amazon-ssm-agent"
+snap="sudo snap list amazon-ssm-agent"
+rpm="sudo rpm -qa amazon-ssm-agent | grep amazon-ssm-agent"
+dpkg="sudo dpkg --get-selections | grep amazon-ssm-agent"
+pkg="su -m root -c \"pkg info -l amazon-ssm-agent | grep amazon-ssm-agent\""
+
+
+if [[ (" ") -eq 0 ]]; then
+echo "Package found in Snap.... Uninstalling"
+(sleep 30 ; sudo snap remove amazon-ssm-agent) &>/dev/null &
+uninstall_success="true"
+fi
+
+if [[ (" ") -eq 0 ]]; then
+echo "Package found in Yum.... Uninstalling"
+(sleep 30 ; sudo yum remove -y amazon-ssm-agent) &>/dev/null &
+uninstall_success="true"
+fi
+
+if [[ (" ") -eq 0 ]]; then
+echo "Package found in Rpm.... Uninstalling"
+(sleep 30 ; sudo rpm -e amazon-ssm-agent) &>/dev/null &
+uninstall_success="true"
+fi
+
+if [[ (" ") -eq 0 ]]; then
+echo "Package found in Dpkg.... Uninstalling"
+(sleep 30 ; sudo dpkg -r --force-all amazon-ssm-agent) &>/dev/null &
+uninstall_success="true"
+fi
+
+if [[ (" ") -eq 0 ]]; then
+echo "Package found in FreeBSD.... Uninstalling"
+(sleep 30 ; su -m root -c "pkg remove -y amazon-ssm-agent") &> /dev/null &
+uninstall_success="true"
+fi
+
+if [ " " == "false" ] ; then
+error_exit "Unable to uninstall an SSM agent"
+fi
+}
+
+
+function get_os_type() {
+FILE=/etc/os-release
+if [ -e $FILE ]; then
+. $FILE
+echo $ID
+else
+echo ""
+fi
+}
+
+if [ " " == "SSM_INSTALLED_BY_CUSTOMER" ] ; then
+echo "{\"message\":\"Uninstall after build set to true.... Uninstalling ssm agent.\", \"verifyUninstallSSMAgent\": \"YES\"}"
+uninstall_ssm_agent
+
+elif [ " " == "SSM_INSTALLED_BY_IMAGE_BUILDER" ] ; then
+echo "Uninstall after build set to null....Checking if SSM Agent was installed by image builder"
+if [[ -f /ssm_installed ]] ; then
+package_manager="$(cat /ssm_installed)"
+echo "{\"message\":\"Uninstalling SSM Agent installed by image builder using "
+uninstall_ssm_agent " "
+fi
+else
+echo "{\"message\":\"Uninstall after build set to false...Skip Uninstall ssm agent\", \"verifyUninstallSSMAgent\": \"NO\"}"
+fi
+
+
+cleanup_image
