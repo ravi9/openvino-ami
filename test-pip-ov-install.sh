@@ -3,7 +3,7 @@
 # Test script which tests: OpenVINO Python imports.
 
 # Path where all the pip-installed OpenVINO binaries
-BIN_PREFIX=/home/ec2-user/openvino_env/bin/
+BIN_PREFIX=/home/ec2-user/openvino_venv/bin/
 
 ## Test Python Imports
 

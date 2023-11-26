@@ -16,17 +16,20 @@ sudo systemctl start crond.service
 # Create Python Virtual Env and install OV Notebooks
 cd /home/ec2-user
 source /home/ec2-user/.bashrc
-python3 -m venv openvino_env
-source openvino_env/bin/activate
-export PATH=/home/ec2-user/openvino_env/bin:/home/ec2-user/.local/bin:/home/ec2-user/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:$PATH
+python3 -m venv openvino_venv
+source openvino_venv/bin/activate
+export PATH=/home/ec2-user/openvino_venv/bin:/home/ec2-user/.local/bin:/home/ec2-user/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:$PATH
 git clone --depth=1 https://github.com/openvinotoolkit/openvino_notebooks.git
 cd openvino_notebooks
 
 # Install OpenVINO Notebook dependencies.
-/home/ec2-user/openvino_env/bin/pip install -r requirements.txt
+/home/ec2-user/openvino_venv/bin/pip install -r requirements.txt
+
+# Clear pip cache
+/home/ec2-user/openvino_venv/bin/pip cache purge
 
 # Name the ipython kernel to OpenVINO
-/home/ec2-user/openvino_env/bin/python -m ipykernel install --user --name OpenVINO
+/home/ec2-user/openvino_venv/bin/python -m ipykernel install --user --name OpenVINO
 
 # Download scripts to start Jupyter
 curl https://raw.githubusercontent.com/ravi9/openvino-ami/main/start_jupyter.sh -o /home/ec2-user/.start_jupyter.sh

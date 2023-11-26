@@ -25,4 +25,4 @@ phases:
         action: ExecuteBash
         inputs:
           commands:
-            - /home/ec2-user/openvino_env/bin/pip show openvino
+            - /home/ec2-user/openvino_venv/bin/pip show openvino

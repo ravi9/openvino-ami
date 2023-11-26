@@ -4,7 +4,7 @@
 # Intel OpenVINO (DEV) and its dependencies,
 # Jupyter Lab
 
-OV_VER=2022.3.0
+OV_VER=2023.2.0
 
 # Install dependencies and Docker
 sudo yum -y update &&
