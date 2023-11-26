@@ -22,6 +22,9 @@ export PATH=/home/ec2-user/openvino_venv/bin:/home/ec2-user/.local/bin:/home/ec2
 git clone --depth=1 https://github.com/openvinotoolkit/openvino_notebooks.git
 cd openvino_notebooks
 
+# Upgrade pip
+/home/ec2-user/openvino_venv/bin/python3 -m pip install --upgrade pip
+
 # Install OpenVINO Notebook dependencies.
 /home/ec2-user/openvino_venv/bin/pip install -r requirements.txt
 
